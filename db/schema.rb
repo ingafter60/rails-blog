@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_12_043559) do
+ActiveRecord::Schema.define(version: 2018_10_12_084536) do
 
   create_table "moderators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "fullname"
@@ -20,4 +20,25 @@ ActiveRecord::Schema.define(version: 2018_10_12_043559) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.boolean "publish"
+    t.bigint "moderator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["moderator_id"], name: "index_posts_on_moderator_id"
+  end
+
+  create_table "settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "site_name"
+    t.integer "post_per_page"
+    t.boolean "under_maintenance"
+    t.boolean "prevent_commenting"
+    t.boolean "tag_visibility"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "posts", "moderators"
 end
